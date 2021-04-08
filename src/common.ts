@@ -1,6 +1,7 @@
 // eslint-disable-next-line max-classes-per-file
 import { Range } from 'semver';
-const varint = require('varint')
+
+const varint = require('varint');
 
 const _encoder = new TextEncoder();
 const _decoder = new TextDecoder();
@@ -54,11 +55,11 @@ export class AADMeta implements Datagram<AADMeta> {
   constructor(
     readonly version: string,
     readonly type: string,
-    readonly nonce: Uint8Array
+    readonly nonce: Uint8Array,
   ) {}
 
   static unpack(
-    data: Uint8Array
+    data: Uint8Array,
   ): {
       metadata: AADMeta;
       rawMetadata: Uint8Array;
@@ -70,7 +71,7 @@ export class AADMeta implements Datagram<AADMeta> {
     const content = data.slice(rawMetadata.length);
 
     const headerBuf = { bs: header.copyWithin(0, 0) };
-    const metadata = Object.create(AADMeta.prototype).deserialize(header.copyWithin(0, 0))
+    const metadata = Object.create(AADMeta.prototype).deserialize(header.copyWithin(0, 0));
 
     const metadataVersion = _decoder.decode(extractVarintPrefixed(headerBuf));
     if (metadataVersion !== AADMeta.METADATA_VERSION) {
@@ -80,22 +81,23 @@ export class AADMeta implements Datagram<AADMeta> {
     return {
       metadata,
       rawMetadata,
-      content
+      content,
     };
   }
 
+  // eslint-disable-next-line class-methods-use-this
   deserialize(data: Uint8Array): AADMeta | null {
-    const buf = { bs: data }
-    const metadataVersion = _decoder.decode(extractVarintPrefixed(buf))
+    const buf = { bs: data };
+    const metadataVersion = _decoder.decode(extractVarintPrefixed(buf));
     if (metadataVersion !== AADMeta.METADATA_VERSION) {
       return null;
     }
     const metadata = new AADMeta(
       _decoder.decode(extractVarintPrefixed(buf)),
       _decoder.decode(extractVarintPrefixed(buf)),
-      extractVarintPrefixed(buf)
+      extractVarintPrefixed(buf),
     );
-    if (buf.bs.length !== 0)  {
+    if (buf.bs.length !== 0) {
       throw new Error('unexpected additional content in header');
     }
 
@@ -134,7 +136,7 @@ export class AADMeta implements Datagram<AADMeta> {
       varintPrefixed(_encoder.encode(AADMeta.METADATA_VERSION)),
       varintPrefixed(_encoder.encode(this.version)),
       varintPrefixed(_encoder.encode(this.type)),
-      varintPrefixed(this.nonce)
+      varintPrefixed(this.nonce),
     );
 
     return varintPrefixed(data);
@@ -148,6 +150,7 @@ export class AADMeta implements Datagram<AADMeta> {
  */
 export class TypedBytes {
   constructor(public readonly buf: Uint8Array) { }
+
   inspect(): AADMeta | null {
     const parsed = AADMeta.unpack(this.buf);
 
@@ -168,12 +171,12 @@ export class TypedBytes {
  */
 export function concatUint8Arrays(...u8s: Uint8Array[]): Uint8Array {
   let totalLen = 0;
-  u8s.forEach(elem => { totalLen += elem.byteLength; });
+  u8s.forEach((elem) => { totalLen += elem.byteLength; });
 
   const ret: Uint8Array = new Uint8Array(totalLen);
 
   let index = 0;
-  u8s.forEach(elem => {
+  u8s.forEach((elem) => {
     ret.set(elem, index);
     index += elem.byteLength;
   });
@@ -182,6 +185,7 @@ export function concatUint8Arrays(...u8s: Uint8Array[]): Uint8Array {
 }
 
 /**
+ * extractVarintPrefixed extracts a varint-prefixed sequence of bytes from the front of an array, and returns it.
  *
  * @param o - object containing a reference to a Uint8Array. Modifies this value in-place.
  */
@@ -197,11 +201,18 @@ export function extractVarintPrefixed(o: { bs: Uint8Array }): Uint8Array {
   const chunkLenLen = varint.encodingLength(chunkLen); // Figure out how many bytes were used to express that length
   const chunk = o.bs.slice(chunkLenLen, chunkLen + chunkLenLen); // Extract that chunk
 
+  // eslint-disable-next-line no-param-reassign
   o.bs = o.bs.slice(chunkLen + chunkLenLen);
 
   return chunk;
 }
 
+/**
+ * varintPrefixed prepends the varint-encoded length of the provided Uint8Array to a copy of it, and returns it.
+ *
+ * @param data - a Uint8Array
+ * @returns Uint8Array - a copy of `data` prepended with its length.
+ */
 export function varintPrefixed(data: Uint8Array): Uint8Array {
   return concatUint8Arrays(Uint8Array.from(varint.encode(data.length)), data);
 }
@@ -218,7 +229,7 @@ export function varintPrefixed(data: Uint8Array): Uint8Array {
  */
 export function Wrapper<T>(
   typeName: string,
-  versionConstraint: string | Range
+  versionConstraint: string | Range,
 ): DatagramConstructor<T> & { wrap(data: T, version: string): Datagram<T> } {
   const constraint = typeof versionConstraint === 'string'
     ? new Range(versionConstraint)
@@ -234,7 +245,7 @@ export function Wrapper<T>(
     constructor(obj: T, readonly version: string) {
       if (!constraint.test(version)) {
         throw new Error(
-          `invalid version string. ${version} not in ${constraint}`
+          `invalid version string. ${version} not in ${constraint}`,
         );
       }
       this.data = { type: typeName, version, data: obj };

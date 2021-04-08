@@ -6,8 +6,8 @@ import {
   Datagram,
   DatagramConstructor,
   Envelope,
-  TypedBytes
-} from '../common/common';
+  TypedBytes,
+} from './common';
 
 /**
  * TaggedSecretBox is an implementation of nacl.secretbox, but additionally includes the version and type information
@@ -22,14 +22,14 @@ class TaggedSecretBox implements Envelope<any> {
 
   encrypt<T>(
     obj: Datagram<T>,
-    nonce: Uint8Array = randomBytes(NONCE_LENGTH)
+    nonce: Uint8Array = randomBytes(NONCE_LENGTH),
   ): TypedBytes {
     const aad: AADMeta = new AADMeta(obj.version, obj.type, nonce);
     const aadSerialized = aad.serialize();
 
     return new TypedBytes(concatUint8Arrays(
       aadSerialized,
-      this.key.seal(nonce, obj.serialize(), aadSerialized)
+      this.key.seal(nonce, obj.serialize(), aadSerialized),
     ));
   }
 
@@ -41,7 +41,7 @@ class TaggedSecretBox implements Envelope<any> {
     const decrypted: Uint8Array | null = this.key.open(
       unpacked.metadata.nonce,
       unpacked.content,
-      unpacked.rawMetadata
+      unpacked.rawMetadata,
     );
     if (!decrypted) {
       return null;

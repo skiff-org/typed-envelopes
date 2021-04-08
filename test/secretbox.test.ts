@@ -1,8 +1,8 @@
 // eslint-disable-next-line max-classes-per-file
 import { Range } from 'semver';
 import { randomBytes } from 'crypto';
-import { Datagram, Wrapper } from '../common/common';
-import TaggedSecretBox from './secretbox';
+import { Datagram, Wrapper } from '../src/common';
+import TaggedSecretBox from '../src/secretbox';
 
 const _encoder = new TextEncoder();
 const _decoder = new TextDecoder();
@@ -21,8 +21,8 @@ class Example implements Datagram<Example> {
 
   constructor(
     public readonly data: Uint8Array,
-    public readonly version: string = '0.1.0'
-  ) {}
+    public readonly version: string = '0.1.0',
+  ) { }
 
   // eslint-disable-next-line class-methods-use-this
   deserialize(data: Uint8Array, version: string): Example | null {
@@ -34,7 +34,7 @@ class Example implements Datagram<Example> {
   }
 
   serialize(): Uint8Array {
-    return this.data
+    return this.data;
   }
 }
 
@@ -61,7 +61,7 @@ describe('typed encryption/decryption', () => {
 
     expect(example.type).toEqual(dec!.type);
     expect(example.version).toEqual(dec!.version);
-    expect(data).toEqual(dec!.data);
+    expect(data).toStrictEqual(dec!.data);
   });
 
   test('datagram wrapper', () => {
@@ -79,7 +79,7 @@ describe('typed encryption/decryption', () => {
     const dec = envelope.decrypt(Foo, enc);
     expect(dec).not.toBeNull();
 
-    expect(foo).toEqual(dec);
+    expect(foo).toStrictEqual(dec);
   });
 
   test('wrapped constraint demo', () => {
@@ -89,17 +89,17 @@ describe('typed encryption/decryption', () => {
     const foov011 = {
       a: 1,
       b: 2,
-      c: [3, 4, 5]
+      c: [3, 4, 5],
     };
 
     const foov012 = {
       ...foov011,
-      d: 'new data'
+      d: 'new data',
     };
 
     const foov013 = {
       ...foov012,
-      e: 'even more'
+      e: 'even more',
     };
 
     // `Foo` doesn't have any context for what the version numbers mean. In the `DatagramWrapper`, it's just additional
@@ -118,9 +118,9 @@ describe('typed encryption/decryption', () => {
     const decv012 = envelope.decrypt(Foo, encv012);
     const decv013 = envelope.decrypt(Foo, encv013);
 
-    expect(decv011).toEqual(foov011);
-    expect(decv012).toEqual(foov012);
-    expect(decv013).toEqual(foov013);
+    expect(decv011).toStrictEqual(foov011);
+    expect(decv012).toStrictEqual(foov012);
+    expect(decv013).toStrictEqual(foov013);
   });
 
   test('versioned demo', () => {
@@ -147,7 +147,7 @@ describe('typed encryption/decryption', () => {
       constructor(
         readonly a: number,
         readonly b: number,
-        readonly c: number[]
+        readonly c: number[],
       ) {
         super();
       }
@@ -175,7 +175,7 @@ describe('typed encryption/decryption', () => {
         readonly a: number,
         readonly b: number,
         readonly c: number[],
-        readonly d: string
+        readonly d: string,
       ) {
         super(a, b, c);
       }
@@ -186,8 +186,8 @@ describe('typed encryption/decryption', () => {
             a: this.a,
             b: this.b,
             c: this.c,
-            d: this.d
-          })
+            d: this.d,
+          }),
         );
       }
 
@@ -211,7 +211,7 @@ describe('typed encryption/decryption', () => {
         readonly b: number,
         readonly c: number[],
         readonly d: string,
-        readonly e: string
+        readonly e: string,
       ) {
         super(a, b, c, d);
       }
@@ -223,8 +223,8 @@ describe('typed encryption/decryption', () => {
             b: this.b,
             c: this.c,
             d: this.d,
-            e: this.e
-          })
+            e: this.e,
+          }),
         );
       }
 
@@ -256,9 +256,9 @@ describe('typed encryption/decryption', () => {
     expect(dec012).toBeInstanceOf(FooV012);
     expect(dec013).toBeInstanceOf(FooV013);
 
-    expect(dec011).toEqual(f011);
-    expect(dec012).toEqual(f012);
-    expect(dec013).toEqual(f013);
+    expect(dec011).toStrictEqual(f011);
+    expect(dec012).toStrictEqual(f012);
+    expect(dec013).toStrictEqual(f013);
 
     // No funny games!
     expect(envelope.decrypt(FooV011, e012)).toBeNull();
@@ -278,8 +278,8 @@ describe('typed encryption/decryption', () => {
             c: [3],
             d: 'four',
             e: 'five',
-            f: 'six' // it has extra data
-          })
+            f: 'six', // it has extra data
+          }),
         );
       },
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -290,9 +290,9 @@ describe('typed encryption/decryption', () => {
           c: [3],
           d: 'four',
           e: 'five',
-          f: 'six'
+          f: 'six',
         };
-      }
+      },
     };
 
     const encStruct = envelope.encrypt(struct);
