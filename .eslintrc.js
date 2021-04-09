@@ -8,6 +8,9 @@ module.exports = {
     'airbnb-base',
     'plugin:jest/style',
   ],
+  ignorePatterns: [
+    '/gen', // tsc-generated code
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     sourceType: 'module',
@@ -33,5 +36,13 @@ module.exports = {
 
     // testing
     'jest/prefer-strict-equal': ['warn'],
+  },
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        moduleDirectory: ['node_modules', 'src/'],
+      },
+    },
   },
 };

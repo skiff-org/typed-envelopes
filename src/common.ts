@@ -23,8 +23,8 @@ interface Serializable {
 
 interface Deserializable<T> {
   // NOTE: until this is static, it must be defined with the traditional function syntax, and not as a captive lambda.
-  // Captive lambdas only get assigned in the constructor, and `Object.create`, which is used to get access to these
-  // pseudo-static functions, does not invoke the constructor.
+  // Captive lambdas only get assigned in the constructor, and `Object.create`, which is used to get access to this
+  // pseudo-static constructor function, does not invoke the actual Object constructor.
   deserialize(data: Uint8Array, version?: string): T | null; // TODO: static
 }
 
