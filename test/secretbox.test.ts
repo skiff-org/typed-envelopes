@@ -126,7 +126,7 @@ describe('typed encryption/decryption', () => {
   test('versioned demo', () => {
     abstract class FooBase implements Datagram<FooBase> {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      abstract deserialize(string, Uint8Array): FooBase | null;
+      abstract deserialize(dat: Uint8Array, ver: string): FooBase | null;
 
       abstract serialize(): Uint8Array;
 
