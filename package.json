@@ -1,6 +1,6 @@
 {
   "name": "@skiff-org/typed-envelopes",
-  "version": "0.1.0",
+  "version": "0.1.0-b",
   "license": "AGPL-3.0",
   "author": "skiff-org",
   "dependencies": {
@@ -23,9 +23,16 @@
     "ts-jest": "^26.5.4",
     "typescript": "^4.2.4"
   },
+  "exports": {
+    ".": "./src"
+  },
+  "files": [
+    "./gen/"
+  ],
   "scripts": {
     "build": "yarn run tsc",
     "clean": "rm -rf ./gen/*",
-    "test": "yarn jest"
+    "test": "yarn jest",
+    "lint-ci": ""
   }
 }
