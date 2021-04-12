@@ -9,7 +9,7 @@ module.exports = {
     'plugin:jest/style',
   ],
   ignorePatterns: [
-    '/gen', // tsc-generated code
+    '/dist', // tsc-generated code
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {

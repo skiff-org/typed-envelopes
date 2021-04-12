@@ -17,7 +17,7 @@
     "forceConsistentCasingInFileNames": true,
 
     "rootDirs": ["./src"],
-    "outDir": "./gen",
+    "outDir": "./dist",
   },
 
   "exclude": ["./test"],

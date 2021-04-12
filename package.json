@@ -24,15 +24,16 @@
     "typescript": "^4.2.4"
   },
   "exports": {
-    "./": "./gen/"
+    "./": "./dist/"
   },
   "files": [
-    "./gen/"
+    "./dist/"
   ],
   "scripts": {
     "build": "yarn run tsc",
-    "clean": "rm -rf ./gen/*",
+    "clean": "rm -rf ./dist/*",
     "test": "yarn jest",
     "lint-ci": ""
-  }
+  },
+  "type": "module"
 }
