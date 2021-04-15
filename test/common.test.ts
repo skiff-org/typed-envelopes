@@ -1,4 +1,4 @@
-import { concatUint8Arrays, varintPrefixed } from '../src/common';
+import { concatUint8Arrays, varintPrefixed } from '../src/';
 
 describe('test concatenation', () => {
   test('simple', () => {

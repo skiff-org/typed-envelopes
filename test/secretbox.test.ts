@@ -1,8 +1,8 @@
 // eslint-disable-next-line max-classes-per-file
 import { Range } from 'semver';
 import { randomBytes } from 'crypto';
-import { Datagram, Wrapper } from '../src/common';
-import TaggedSecretBox from '../src/secretbox';
+import { Datagram, Wrapper } from '../src';
+import { SecretBox } from '../src';
 
 const _encoder = new TextEncoder();
 const _decoder = new TextDecoder();
@@ -40,7 +40,7 @@ class Example implements Datagram<Example> {
 
 describe('typed encryption/decryption', () => {
   const key = randomBytes(32);
-  const envelope = new TaggedSecretBox(key);
+  const envelope = new SecretBox(key);
 
   test('roundtrip', () => {
     const data = Uint8Array.of(1, 2, 3, 4, 5);
