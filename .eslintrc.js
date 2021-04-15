@@ -5,7 +5,7 @@ module.exports = {
     'jest/globals': true,
   },
   extends: [
-    'airbnb-base',
+    'airbnb-typescript',
     'plugin:jest/style',
   ],
   ignorePatterns: [

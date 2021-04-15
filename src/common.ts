@@ -52,6 +52,8 @@ export type Wrapped<T> = Versioned & Typed & { data: T };
  * AADMeta is a class that encapsulates the additional metadata included in these envelope implementations.
  */
 export class AADMeta implements Datagram<AADMeta> {
+  static readonly METADATA_VERSION = '0.1.0';
+
   constructor(
     readonly version: string,
     readonly type: string,
@@ -103,8 +105,6 @@ export class AADMeta implements Datagram<AADMeta> {
 
     return metadata;
   }
-
-  static readonly METADATA_VERSION = '0.1.0';
 
   serialize(): Uint8Array {
     /**
