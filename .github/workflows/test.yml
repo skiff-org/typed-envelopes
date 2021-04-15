@@ -1,4 +1,4 @@
-name: Test & Test Build
+name: Test
 on: [push]
 jobs:
   test:
@@ -17,4 +17,3 @@ jobs:
 
       - run: yarn install --dev
       - run: yarn test
-      - run: yarn build
