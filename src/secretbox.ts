@@ -10,10 +10,10 @@ import {
 } from './common';
 
 /**
- * TaggedSecretBox is an implementation of nacl.secretbox, but additionally includes the version and type information
+ * SecretBox is an implementation of nacl.secretbox, but additionally includes the version and type information
  * of the encrypted content in the AD headers.
  */
-class TaggedSecretBox implements Envelope<any> {
+export class SecretBox implements Envelope<any> {
   private readonly key: ChaCha20Poly1305;
 
   constructor(keyBytes: Uint8Array) {
@@ -51,5 +51,3 @@ class TaggedSecretBox implements Envelope<any> {
     return obj.type === unpacked.metadata.type ? candidate : null;
   }
 }
-
-export default TaggedSecretBox;
