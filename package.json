@@ -30,12 +30,14 @@
     "./": "./dist/"
   },
   "files": [
-    "./dist/"
+    "./dist/index.*",
+    "./dist/src/"
   ],
   "scripts": {
-    "build": "yarn run clean && yarn run index && yarn run tsc",
+    "prepublish": "yarn clean && yarn index && yarn build",
     "clean": "rm -rf ./dist/*",
-    "index": "yarn run ctix ./tsconfig.json -b false",
+    "index": "yarn ctix ./tsconfig.json -b false",
+    "build": "tsc",
     "test": "yarn jest"
   },
   "type": "module"
