@@ -54,19 +54,9 @@ export type Wrapped<T> = Versioned & Typed & { data: T };
 export class AADMeta implements Datagram<AADMeta> {
   static readonly METADATA_VERSION = '0.1.0';
 
-  constructor(
-    readonly version: string,
-    readonly type: string,
-    readonly nonce: Uint8Array,
-  ) {}
+  constructor(readonly version: string, readonly type: string, readonly nonce: Uint8Array) {}
 
-  static unpack(
-    data: Uint8Array,
-  ): {
-      metadata: AADMeta;
-      rawMetadata: Uint8Array;
-      content: Uint8Array;
-    } | null {
+  static unpack(data: Uint8Array): { metadata: AADMeta; rawMetadata: Uint8Array; content: Uint8Array; } | null {
     const header = extractVarintPrefixed({ bs: data.copyWithin(0, 0) });
 
     const rawMetadata = varintPrefixed(header);
@@ -231,9 +221,7 @@ export function Wrapper<T>(
   typeName: string,
   versionConstraint: string | Range,
 ): DatagramConstructor<T> & { wrap(data: T, version: string): Datagram<T> } {
-  const constraint = typeof versionConstraint === 'string'
-    ? new Range(versionConstraint)
-    : versionConstraint;
+  const constraint = typeof versionConstraint === 'string' ? new Range(versionConstraint) : versionConstraint;
   return class implements Datagram<T> {
     // eslint-disable-next-line class-methods-use-this
     get type(): string {

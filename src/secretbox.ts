@@ -20,10 +20,7 @@ export class SecretBox implements Envelope<any> {
     this.key = new ChaCha20Poly1305(keyBytes);
   }
 
-  encrypt<T>(
-    obj: Datagram<T>,
-    nonce: Uint8Array = randomBytes(NONCE_LENGTH),
-  ): TypedBytes {
+  encrypt<T>(obj: Datagram<T>, nonce: Uint8Array = randomBytes(NONCE_LENGTH)): TypedBytes {
     const aad: AADMeta = new AADMeta(obj.version, obj.type, nonce);
     const aadSerialized = aad.serialize();
 
