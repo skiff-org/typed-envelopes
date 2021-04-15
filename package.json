@@ -1,6 +1,6 @@
 {
   "name": "@skiff-org/typed-envelopes",
-  "version": "0.1.0-h",
+  "version": "0.1.0-i",
   "license": "AGPL-3.0",
   "author": "skiff-org",
   "main": "./dist/index.js",
@@ -34,9 +34,8 @@
   "scripts": {
     "build": "yarn run clean && yarn run index && yarn run tsc",
     "clean": "rm -rf ./dist/*",
-    "index": "yarn run ctix ./tsconfig.json",
-    "test": "yarn jest",
-    "lint-ci": ""
+    "index": "yarn run ctix ./tsconfig.json -b false",
+    "test": "yarn jest"
   },
   "type": "module"
 }
