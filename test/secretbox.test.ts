@@ -1,8 +1,7 @@
 // eslint-disable-next-line max-classes-per-file
 import { Range } from 'semver';
 import { randomBytes } from 'crypto';
-import { Datagram, Wrapper } from '../src';
-import { SecretBox } from '../src';
+import { Datagram, Wrapper, SecretBox } from '../src';
 
 const _encoder = new TextEncoder();
 const _decoder = new TextDecoder();

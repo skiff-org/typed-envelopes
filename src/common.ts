@@ -1,5 +1,6 @@
 // eslint-disable-next-line max-classes-per-file
 import { Range } from 'semver';
+import { version as AADMETA_VERSION } from './version';
 
 const varint = require('varint');
 
@@ -52,8 +53,6 @@ export type Wrapped<T> = Versioned & Typed & { data: T };
  * AADMeta is a class that encapsulates the additional metadata included in these envelope implementations.
  */
 export class AADMeta implements Datagram<AADMeta> {
-  static readonly METADATA_VERSION = '0.1.0';
-
   constructor(readonly version: string, readonly type: string, readonly nonce: Uint8Array) {}
 
   static unpack(data: Uint8Array): { metadata: AADMeta; rawMetadata: Uint8Array; content: Uint8Array; } | null {
@@ -66,7 +65,7 @@ export class AADMeta implements Datagram<AADMeta> {
     const metadata = Object.create(AADMeta.prototype).deserialize(header.copyWithin(0, 0));
 
     const metadataVersion = _decoder.decode(extractVarintPrefixed(headerBuf));
-    if (metadataVersion !== AADMeta.METADATA_VERSION) {
+    if (metadataVersion !== AADMETA_VERSION) {
       throw new Error('unrecognized metadata version');
     }
 
@@ -81,7 +80,7 @@ export class AADMeta implements Datagram<AADMeta> {
   deserialize(data: Uint8Array): AADMeta | null {
     const buf = { bs: data };
     const metadataVersion = _decoder.decode(extractVarintPrefixed(buf));
-    if (metadataVersion !== AADMeta.METADATA_VERSION) {
+    if (metadataVersion !== AADMETA_VERSION) {
       return null;
     }
     const metadata = new AADMeta(
@@ -123,7 +122,7 @@ export class AADMeta implements Datagram<AADMeta> {
      *
      */
     const data: Uint8Array = concatUint8Arrays(
-      varintPrefixed(_encoder.encode(AADMeta.METADATA_VERSION)),
+      varintPrefixed(_encoder.encode(AADMETA_VERSION)),
       varintPrefixed(_encoder.encode(this.version)),
       varintPrefixed(_encoder.encode(this.type)),
       varintPrefixed(this.nonce),

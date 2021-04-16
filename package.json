@@ -21,6 +21,7 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^24.3.4",
+    "genversion": "^2.3.1",
     "jest": "^26.6.3",
     "ts-jest": "^26.5.5",
     "ts-node": "^9.1.1",
@@ -35,6 +36,7 @@
   ],
   "scripts": {
     "prepublish": "yarn clean && yarn index && yarn build",
+    "postversion": "genversion -es ./src/version.ts",
     "clean": "rm -rf ./dist/*",
     "index": "yarn ctix ./tsconfig.json -b false",
     "build": "tsc",
