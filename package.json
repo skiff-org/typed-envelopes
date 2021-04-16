@@ -1,0 +1,44 @@
+{
+  "name": "@skiff-org/typed-envelopes",
+  "version": "0.1.0-k",
+  "license": "AGPL-3.0",
+  "author": "skiff-org",
+  "main": "./dist/index.js",
+  "dependencies": {
+    "@stablelib/chacha20poly1305": "^1.0.0",
+    "@types/node": "^14.14.37",
+    "@types/semver": "^7.3.4",
+    "semver": "^7.3.5",
+    "text-encoding": "^0.7.0",
+    "varint": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.22",
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.21.0",
+    "ctix": "^0.3.1",
+    "eslint": "^7.23.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.3.4",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.5.5",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
+  },
+  "exports": {
+    "./": "./dist/"
+  },
+  "files": [
+    "./dist/index.*",
+    "./dist/src/"
+  ],
+  "scripts": {
+    "prepublish": "yarn clean && yarn index && yarn build",
+    "clean": "rm -rf ./dist/*",
+    "index": "yarn ctix ./tsconfig.json -b false",
+    "build": "tsc",
+    "test": "yarn jest"
+  },
+  "type": "module"
+}
