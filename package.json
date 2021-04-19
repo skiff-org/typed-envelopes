@@ -1,6 +1,6 @@
 {
   "name": "@skiff-org/typed-envelopes",
-  "version": "0.1.1-g",
+  "version": "0.1.1-h",
   "license": "AGPL-3.0",
   "author": "skiff-org",
   "main": "./dist/index.js",
@@ -30,11 +30,8 @@
     "./": "./dist/"
   },
   "files": [
-    "./dist/",
-    "./dist/src/",
-    "./dist/**/*.ts",
-    "./dist/**/*.js",
-    "./dist/**/*.map"
+    "/dist/*index*",
+    "/dist/src/*"
   ],
   "scripts": {
     "prepublish": "yarn clean && yarn build",
