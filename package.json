@@ -34,7 +34,7 @@
     "/dist/src/*"
   ],
   "scripts": {
-    "prepublish": "yarn clean && yarn postversion && yarn build",
+    "prepack": "yarn clean && yarn postversion && yarn build",
     "postversion": "genversion -es ./src/version.ts",
     "clean": "rm -rf ./dist/*",
     "build": "tsc",
