@@ -4,5 +4,4 @@ export default {
   testMatch: ['<rootDir>/test/**/*.ts'],
   testPathIgnorePatterns: ['/node_modules/'],
   globals: { 'ts-jest': { diagnostics: false } },
-  transform: {},
 };

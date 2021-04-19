@@ -53,6 +53,8 @@ export type Wrapped<T> = Versioned & Typed & { data: T };
  * AADMeta is a class that encapsulates the additional metadata included in these envelope implementations.
  */
 export class AADMeta implements Datagram<AADMeta> {
+  private static readonly SUPPORTED_VERSIONS = new Range(`0.1.* - ${AADMETA_VERSION}`);
+
   constructor(readonly version: string, readonly type: string, readonly nonce: Uint8Array) {}
 
   static unpack(data: Uint8Array): { metadata: AADMeta; rawMetadata: Uint8Array; content: Uint8Array; } | null {
@@ -65,7 +67,7 @@ export class AADMeta implements Datagram<AADMeta> {
     const metadata = Object.create(AADMeta.prototype).deserialize(header.copyWithin(0, 0));
 
     const metadataVersion = _decoder.decode(extractVarintPrefixed(headerBuf));
-    if (metadataVersion !== AADMETA_VERSION) {
+    if (!AADMeta.SUPPORTED_VERSIONS.test(metadataVersion)) {
       throw new Error('unrecognized metadata version');
     }
 
@@ -80,7 +82,7 @@ export class AADMeta implements Datagram<AADMeta> {
   deserialize(data: Uint8Array): AADMeta | null {
     const buf = { bs: data };
     const metadataVersion = _decoder.decode(extractVarintPrefixed(buf));
-    if (metadataVersion !== AADMETA_VERSION) {
+    if (!AADMeta.SUPPORTED_VERSIONS.test(metadataVersion)) {
       return null;
     }
     const metadata = new AADMeta(
