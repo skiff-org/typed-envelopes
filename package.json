@@ -1,6 +1,6 @@
 {
   "name": "@skiff-org/typed-envelopes",
-  "version": "0.1.1-e",
+  "version": "0.1.1-f",
   "license": "AGPL-3.0",
   "author": "skiff-org",
   "main": "./dist/index.js",
@@ -26,9 +26,6 @@
     "ts-jest": "^26.5.5",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"
-  },
-  "exports": {
-    "./": "./dist/"
   },
   "files": [
     "./dist/index.js",
