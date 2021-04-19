@@ -20,6 +20,6 @@
     "outDir": "./dist",
   },
 
-  "exclude": ["./test"],
+  "exclude": ["./test", "jest.config.*"],
   "compileOnSave": true
 }
