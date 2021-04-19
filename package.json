@@ -1,6 +1,6 @@
 {
   "name": "@skiff-org/typed-envelopes",
-  "version": "0.1.1-i",
+  "version": "0.1.1-j",
   "license": "AGPL-3.0",
   "author": "skiff-org",
   "main": "./dist/index.js",
