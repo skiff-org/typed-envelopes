@@ -1,6 +1,6 @@
 {
   "name": "@skiff-org/typed-envelopes",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "AGPL-3.0",
   "author": "skiff-org",
   "main": "./dist/index.js",
@@ -16,11 +16,11 @@
     "@types/jest": "^26.0.22",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.21.0",
-    "ctix": "^0.3.1",
     "eslint": "^7.23.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^24.3.4",
+    "genversion": "^2.3.1",
     "jest": "^26.6.3",
     "ts-jest": "^26.5.5",
     "ts-node": "^9.1.1",
@@ -30,13 +30,13 @@
     "./": "./dist/"
   },
   "files": [
-    "./dist/index.*",
-    "./dist/src/"
+    "/dist/*index*",
+    "/dist/src/*"
   ],
   "scripts": {
-    "prepublish": "yarn clean && yarn index && yarn build",
+    "prepack": "yarn clean && yarn postversion && yarn build",
+    "postversion": "genversion -es ./src/version.ts",
     "clean": "rm -rf ./dist/*",
-    "index": "yarn ctix ./tsconfig.json -b false",
     "build": "tsc",
     "test": "yarn jest"
   },
