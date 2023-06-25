@@ -8,7 +8,7 @@
     "@stablelib/chacha20poly1305": "^1.0.0",
     "@types/node": "^14.14.37",
     "@types/semver": "^7.3.4",
-    "semver": "^7.3.5",
+    "semver": "^7.5.2",
     "text-encoding": "^0.7.0",
     "varint": "^6.0.0"
   },
